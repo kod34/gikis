@@ -19,15 +19,27 @@ git clone https://github.com/kod34/gikis
 
 cd gikis/
 
-pip3 intall -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 
 ## 🎈 Usage <a name="usage"></a>
+```
+usage: gikis.py [-h] -u URL -o OUT -l LVL [-d DELAY]
 
+options:
+  -h, --help  show this help message and exit
+
+required named arguments:
+  -u URL      Specify a url
+  -o OUT      Specify an output directory
+  -l LVL      Specify a level(light, moderate, deep)
+  -d DELAY    Specify a download delay
 ```
-python3 gikis.py -u http://docs.example.com -l light -o directory/ [-d] 5
-```
+Example:
+
+`gikis.py -u http://docs.example.com -l light -o directory/ -d 5
+`
 
 ## ✍️ Authors <a name = "authors"></a>
 
