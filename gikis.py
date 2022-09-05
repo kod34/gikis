@@ -19,7 +19,7 @@ parser = argparse.ArgumentParser()
 requiredNamed = parser.add_argument_group('required named arguments')
 requiredNamed.add_argument("-u", dest="url",help="Specify a url", required=True)
 requiredNamed.add_argument("-o", dest="out",help="Specify an output directory", required=True)
-requiredNamed.add_argument("-l", dest="lvl",help="Specify a level(light, moderate, deep)", required=True)
+requiredNamed.add_argument("-l", dest="lvl",help="Specify a level (basic, light, moderate, deep)", required=True)
 requiredNamed.add_argument("-d", dest="delay",help="Specify a download delay")
 args = parser.parse_args()
 
@@ -235,7 +235,7 @@ href_full_list = []
 try:
     if __name__ == '__main__':
         check()
-        if lvl != 'light' and lvl != 'moderate' and lvl != 'deep':
+        if lvl != 'basic' and lvl != 'light' and lvl != 'moderate' and lvl != 'deep':
             parser.error("A required argument is missing")
         else:
             print(banner)
@@ -244,18 +244,24 @@ try:
             t1_str = t1.strftime("%H:%M:%S")
             print('\n[+] Time of Start: '+t1_str, end='\n')
             print('\n[+] Collecting pages...', end='\n')
+        if lvl == 'basic':
             looplinks(url, href_list)
             href_full_list = href_list
-        if lvl == 'light':
-            # getlink2()
+        elif lvl == 'light':
+            looplinks(url, href_list)
+            href_full_list = href_list
+            getlink2()
             href_full_list = np.concatenate((np.array(href_full_list), np.array(href_list2)))
         elif lvl == 'moderate':
+            looplinks(url, href_list)
+            href_full_list = href_list
             getlink2()
             href_full_list = np.concatenate((np.array(href_full_list), np.array(href_list2)))
             getlink3()
             href_full_list = np.concatenate((np.array(href_full_list), np.array(href_list3)))
-            href_full_list = np.concatenate((np.array(href_full_list, np.array(href_list4))))
         elif lvl == 'deep' :
+            looplinks(url, href_list)
+            href_full_list = href_list
             getlink2()
             href_full_list = np.concatenate((np.array(href_full_list), np.array(href_list2)))
             getlink3()

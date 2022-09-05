@@ -33,7 +33,7 @@ options:
 required named arguments:
   -u URL      Specify a url
   -o OUT      Specify an output directory
-  -l LVL      Specify a level(light, moderate, deep)
+  -l LVL      Specify a level (basic, light, moderate, deep)
   -d DELAY    Specify a download delay
 ```
 Example:
