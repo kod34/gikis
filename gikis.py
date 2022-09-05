@@ -167,7 +167,7 @@ def downfile():
                 abspath(fold2do)
             except IsADirectoryError:
                 pass 
-            print('Waiting '+str(delay)+' seconds...')
+            print('\nWaiting '+str(delay)+' seconds...', end='')
             time.sleep(delay)
             
             
@@ -280,7 +280,7 @@ try:
     sys.stdout.flush()
     downfol()
 
-    print('\n[+] Downloading files...')
+    print('\n[+] Downloading files...', end='')
     time.sleep(1)
     sys.stdout.flush()
     downfile()
