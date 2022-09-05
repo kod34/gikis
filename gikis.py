@@ -156,6 +156,7 @@ def downfile():
             fold2do = os.path.join(out, fol)
             try:
                 file2do = requests.get(f, stream=True)
+                time.sleep(delay)
             except requests.exceptions.ConnectionError:
                 sys.exit('[-] Connection Error.')
             print('\nDownloading <'+f+'>...', end='')
@@ -167,7 +168,6 @@ def downfile():
                 abspath(fold2do)
             except IsADirectoryError:
                 pass 
-            time.sleep(delay)
             
 # fix paths
 
