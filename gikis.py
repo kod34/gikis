@@ -101,17 +101,17 @@ def getlink5():
 
 # check passed argument
 def check():
-    global url, lvl, out, delay
+    global url, lvl, out
     url = args.url
     lvl = args.lvl
     out = args.out
+    delay = args.delay
     try:
-        delay = int(args.delay)
+        delay = int(delay)
     except ValueError:
         parser.error("The delay argument must be an integer")
-        
-    if delay == None:
-        delay = 0
+    except TypeError:
+        pass
     try:
         if not os.path.isdir(out):
             os.makedirs(out, exist_ok=True)
@@ -156,8 +156,8 @@ def downfile():
             fold2do = os.path.join(out, fol)
             try:
                 file2do = requests.get(f, stream=True)
-            except requests.exceptions.ConnectionError:
-                sys.exit('\n[-] Connection Error.')
+            except requests.exceptions.ConnectionError as E3:
+                sys.exit('\n[-] Connection Error.\n'+E3)
             print('\nDownloading <'+f+'>...', end='')
             sys.stdout.flush()
             try:open(fold2do, "wb").write(file2do.content)
@@ -166,8 +166,9 @@ def downfile():
                 print('\nFixing paths...', end='')
                 abspath(fold2do)
             except IsADirectoryError:
-                pass 
-            print('\nWaiting '+str(delay)+' seconds...', end='')
+                pass
+            if delay > 0:
+                print('\nWaiting '+str(delay)+' seconds...', end='')
             time.sleep(delay)
             
             
@@ -236,6 +237,7 @@ href_full_list = []
 
 try:
     if __name__ == '__main__':
+        delay = 0
         check()
         if lvl != 'basic' and lvl != 'light' and lvl != 'moderate' and lvl != 'deep':
             parser.error("A required argument is missing")
