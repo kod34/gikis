@@ -167,8 +167,9 @@ def downfile():
                 abspath(fold2do)
             except IsADirectoryError:
                 pass 
-            time.sleep(delay)
             print('Waiting '+str(delay)+' seconds...')
+            time.sleep(delay)
+            
             
 # fix paths
 
