@@ -134,7 +134,7 @@ def downfol():
             elif "Windows" in platform.system():
                 fol_final = '\\'.join(fol_list[:-1])
             else:
-                sys.exit("/n[-] Platform not supported.")
+                sys.exit("\n[-] Platform not supported.")
         else:
             fol_final = fol
         os.makedirs(os.path.join(out, fol_final), exist_ok=True)
@@ -150,14 +150,14 @@ def downfile():
         elif 'Windows' in platform.system():
             fol = splitlink(f).path.strip('/').replace('/', '\\')
         else:
-            sys.exit("/n[-] Platform not supported.")
+            sys.exit("\n[-] Platform not supported.")
         root, ext = os.path.splitext(f)
         if ext:
             fold2do = os.path.join(out, fol)
             try:
                 file2do = requests.get(f, stream=True)
             except requests.exceptions.ConnectionError:
-                sys.exit('[-] Connection Error.')
+                sys.exit('\n[-] Connection Error.')
             print('\nDownloading <'+f+'>...', end='')
             sys.stdout.flush()
             try:open(fold2do, "wb").write(file2do.content)
@@ -208,7 +208,7 @@ def abspath(file):
                 except KeyError:
                     pass
             else:
-                sys.exit("/n[-] Platform not supported.")
+                sys.exit("\n[-] Platform not supported.")
     with open(file, 'w') as f:
         f.write(str(soupfile))
     f.close()
