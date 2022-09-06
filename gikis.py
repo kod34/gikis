@@ -148,7 +148,7 @@ def downfile():
         if 'Linux' in platform.system():
             fol = splitlink(f).path.strip('/')
         elif 'Windows' in platform.system():
-            fol = splitlink(f).path.strip('/').replace('/', '\\')
+            fol = splitlink(f).path.strip('/')
         else:
             sys.exit("\n[-] Platform not supported.")
         root, ext = os.path.splitext(f)
@@ -210,7 +210,7 @@ def abspath(file):
                     pass
             else:
                 sys.exit("\n[-] Platform not supported.")
-    with open(file, 'w') as f:
+    with open(file, 'w', encoding="utf8", errors='ignore') as f:
         f.write(str(soupfile))
     f.close()
 
