@@ -156,8 +156,8 @@ def downfile():
             fold2do = os.path.join(out, fol)
             try:
                 file2do = requests.get(f, stream=True)
-            except requests.exceptions.ConnectionError as E3:
-                sys.exit('\n[-] Connection Error.\n'+E3)
+            except requests.exceptions.ConnectionError:
+                sys.exit('\n[-] Connection Error.\n')
             print('\nDownloading <'+f+'>...', end='')
             sys.stdout.flush()
             try:open(fold2do, "wb").write(file2do.content)
