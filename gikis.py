@@ -101,7 +101,7 @@ def getlink5():
 
 # check passed argument
 def check():
-    global url, lvl, out
+    global url, lvl, out, delay
     url = args.url
     lvl = args.lvl
     out = args.out
@@ -239,6 +239,7 @@ try:
     if __name__ == '__main__':
         delay = 0
         check()
+        print(delay)
         if lvl != 'basic' and lvl != 'light' and lvl != 'moderate' and lvl != 'deep':
             parser.error("A required argument is missing")
         else:
