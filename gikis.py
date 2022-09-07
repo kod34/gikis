@@ -161,24 +161,24 @@ def downfile():
                 sys.exit('\n[-] Connection Error.\n')
             # print('\nDownloading <'+f+'>...', end='')
             step = np.where(href_full_list == f)[0][0]
-            step_len = len(href_full_list[0:step+1])
-            per = math.floor((step_len/len(href_full_list))*100)
+            last_step = np.where(href_full_list == href_full_list[-1])[0][0]
+            # step_len = len(href_full_list[0:step+1])
+            # per = math.floor((step_len/len(href_full_list))*100)
+            per = math.floor((step*100)/last_step)
             # prog_bar = prog_bar.replace(" ", "#", int(len(href_full_list)/(prog_size*10)))
-            if per >= 99:
-                prog_bar = "#"*prog_size
-                print("["+prog_bar+"] "+str(per)+"%", end = '\r')
-            else:
-                print("["+prog_bar+"] "+str(per)+"%", end = '\r')
-                prog_bar = "#"*int((int(per)*prog_size)/100)+" "*int(prog_size-int((int(per)*prog_size)/100))
+            print("["+prog_bar+"] "+str(per)+"%", end = '\r')
+            prog_bar = "#"*int((int(per)*prog_size)/100)+" "*int(prog_size-int((int(per)*prog_size)/100))
             sys.stdout.flush()
             try:open(fold2do, "wb").write(file2do.content)
             except IsADirectoryError:pass
             try:
                 # print('\nFixing paths...', end='')
                 abspath(fold2do)
-            except IsADirectoryError:
+            except (IsADirectoryError, AssertionError):
                 pass
             time.sleep(delay)
+    prog_bar = "#"*prog_size
+    print("["+prog_bar+"] 100%", end = '\r')
             
 # fix paths
 def abspath(file):
