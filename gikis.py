@@ -12,6 +12,7 @@ import validators
 from tldextract import extract
 import numpy as np
 import platform
+import math
 
 ### ARGUMENTS (URL, OUTPUT DIR, LEVEL)
 
@@ -105,7 +106,8 @@ def check():
     url = args.url
     lvl = args.lvl
     out = args.out
-    delay = args.delay
+    if args.delay != None:
+        delay = args.delay
     try:
         delay = int(delay)
     except ValueError:
@@ -139,11 +141,10 @@ def downfol():
             fol_final = fol
         os.makedirs(os.path.join(out, fol_final), exist_ok=True)
 
-        
-                 
 # download files
-
 def downfile():
+    prog_size = 50
+    prog_bar = " "*prog_size
     for f in href_full_list:
         if 'Linux' in platform.system():
             fol = splitlink(f).path.strip('/')
@@ -158,22 +159,28 @@ def downfile():
                 file2do = requests.get(f, stream=True)
             except requests.exceptions.ConnectionError:
                 sys.exit('\n[-] Connection Error.\n')
-            print('\nDownloading <'+f+'>...', end='')
+            # print('\nDownloading <'+f+'>...', end='')
+            step = np.where(href_full_list == f)[0][0]
+            step_len = len(href_full_list[0:step+1])
+            per = math.floor((step_len/len(href_full_list))*100)
+            # prog_bar = prog_bar.replace(" ", "#", int(len(href_full_list)/(prog_size*10)))
+            if per >= 99:
+                prog_bar = "#"*prog_size
+                print("["+prog_bar+"] "+str(per)+"%", end = '\r')
+            else:
+                print("["+prog_bar+"] "+str(per)+"%", end = '\r')
+                prog_bar = "#"*int((int(per)*prog_size)/100)+" "*int(prog_size-int((int(per)*prog_size)/100))
             sys.stdout.flush()
             try:open(fold2do, "wb").write(file2do.content)
             except IsADirectoryError:pass
             try:
-                print('\nFixing paths...', end='')
+                # print('\nFixing paths...', end='')
                 abspath(fold2do)
             except IsADirectoryError:
                 pass
-            if delay > 0:
-                print('\nWaiting '+str(delay)+' seconds...', end='')
             time.sleep(delay)
             
-            
 # fix paths
-
 def abspath(file):
     with open(file, 'r', encoding="utf8", errors='ignore') as f:
         soupfile = BeautifulSoup(f, 'html.parser')
@@ -239,7 +246,6 @@ try:
     if __name__ == '__main__':
         delay = 0
         check()
-        print(delay)
         if lvl != 'basic' and lvl != 'light' and lvl != 'moderate' and lvl != 'deep':
             parser.error("A required argument is missing")
         else:
@@ -282,15 +288,19 @@ try:
     time.sleep(1)
     sys.stdout.flush()
     downfol()
-
-    print('\n[+] Downloading files...', end='')
+    if delay == 0:
+        print('\n[+] Downloading files and fixing paths...', end='\n')
+    elif delay == 1:
+        print('\n[+] Downloading files and fixing paths with a',str(delay),'second delay...', end='\n')
+    else:
+        print('\n[+] Downloading files and fixing paths with a',str(delay),'seconds delay...', end='\n')       
     time.sleep(1)
     sys.stdout.flush()
     downfile()
     print('\n[+] Done', end='\n')
     t2 = datetime.now()
     t2_str = t2.strftime("%H:%M:%S")
-    print('\n[+] Time of End: '+t2_str, end='\n')
+    print('\n[+] Time of End: '+t2_str, end='')
     print('\n[*] Time taken: '+str(t2-t1), end='\n')
 
 except KeyboardInterrupt:
